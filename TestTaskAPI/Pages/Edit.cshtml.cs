@@ -53,6 +53,7 @@ namespace TestTaskAPI.Pages
         [HttpPost]
         public async Task<IActionResult> OnPostAsync()
         {
+            Task.Statuss = new StatusModel();
             var json = JsonSerializer.Serialize(Task);
 
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
