@@ -1,0 +1,27 @@
+﻿@page
+@model TestTaskAPI.Pages.EditModel
+@{
+    <h1>Редактирование задачи</h1>
+
+    @using (Html.BeginForm("OnPostAsync", "Task", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="name">Наименование:</label>
+            <input type="text" class="form-control" id="name" name="Name" value="@Model.Task?.Name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea class="form-control" id="description" name="Description">@Model.Task?.Description</textarea>
+        </div>
+        <div class="form-group">
+            <label for="status">Статус:</label>
+            <select class="form-control" id="Statuss" asp-for="Task.Status_ID" name="Status_ID" required>
+                @foreach (var status in Model.Statuses)
+                {
+                    <option value="@status.id" @(status.id == Model.Task.Status_ID ? "selected" : "")>@status.Name</option>
+                }
+            </select>
+        </div>
+        <button type="submit" asp-page-handler="OnPostAsync" class="btn btn-primary">Сохранить</button>
+    }
+}

@@ -1,0 +1,63 @@
+﻿@page
+@model TestTaskAPI.Pages.IndexModel
+@{
+    <h1>Список задач</h1>
+
+    <p>
+        <button class="btn btn-primary" onclick="createTask()">Добавить запись</button>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Наименование</th>
+                <th>Описание</th>
+                <th>Статус</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model.Tasks)
+            {
+                <tr>
+                    <td>@task.id</td>
+                    <td>@task.Name</td>
+                    <td>@task.Description</td>
+                    <td>@task.Statuss?.Name</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="editTask(@task.id)">Редактировать</button>
+                        <button class="btn btn-danger" onclick="deleteTask(@task.id)">Удалить</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function deleteTask(taskId) {
+            if (confirm("Вы уверены, что хотите удалить задачу?")) {
+                fetch(`/api/task/${taskId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert("Ошибка при удалении задачи.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert("Ошибка при удалении задачи.");
+                    });
+            }
+        }
+        function editTask(taskId) {
+            window.location.href = `/Edit?id=${taskId}`;
+        }
+        function createTask() {
+            window.location.href = `/Create`;
+        }
+    </script>
+}
